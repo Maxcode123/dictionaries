@@ -2,3 +2,4 @@ dist/
 build/
 dictionaries.egg-info
 .envrc
+__pycache__
