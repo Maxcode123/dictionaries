@@ -5,8 +5,6 @@
 
 // SSDict methods array
 static PyMethodDef SSDict_methods[] = {
-    // {"__setitem__", SSDict__setitem__, METH_VARARGS,
-    //  "Set an item in the dictionary"},
     {"__getitem__", SSDict__getitem__, METH_O | METH_COEXIST,
      "Get an item from the dictionary"},
     {NULL}
