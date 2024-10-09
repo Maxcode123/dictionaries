@@ -11,7 +11,7 @@ install-pip:
 	$(PY) -m ensurepip --default-pip
 
 install-requirements:
-	$(PIP) install -t $(REPOS)/Lib setuptools
+	$(PIP) install --upgrade -t $(REPOS)/cpython/Lib setuptools unittest-extensions
 
 build-module:
 	$(PY) setup.py install --home $(REPOS)/cpython/
@@ -19,7 +19,10 @@ build-module:
 	cp -r build/ $(REPOS)/cpython/
 
 test:
-	$(PY) test.py
+	$(PY) -m unittest -v test.py
+
+run:
+	$(PY) example.py
 
 clean:
 	rm -rf dist/ build/
