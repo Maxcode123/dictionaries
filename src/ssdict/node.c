@@ -3,8 +3,8 @@
 // Deallocates the given node. Does not free the node, only decrements reference
 // to key and value.
 void SSDictNode_dealloc(SSDictNode *self) {
-  Py_DECREF(self->key);
-  Py_DECREF(self->value);
+  Py_XDECREF(self->key);
+  Py_XDECREF(self->value);
 }
 
 // Allocate a new node given the types of the key and value.
@@ -34,7 +34,9 @@ void SSDictNode__init__(SSDictNode *self, PyObject *key, PyObject *value) {
     return;
   }
 
-  self->key = key;
+  self->key = Py_NewRef(key);
+
   self->key_hash = hash;
-  self->value = value;
+
+  self->value = Py_NewRef(value);
 }
