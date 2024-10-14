@@ -25,5 +25,5 @@ run:
 	$(PY) example.py
 
 clean:
-	rm -rf dist/ build/
+	rm -rf dist/ build/ src/dictionaries.egg-info src/*.so
 	$(PIP) uninstall dictionaries -y
