@@ -199,3 +199,28 @@ int _SSDict_len(PyObject *_self) {
   SSDict *self = (SSDict *)_self;
   return self->size;
 }
+
+// Returns 1 if the dictionary contains the given key, 0 otherwise. Returns -1
+// upon failure.
+int SSDict__contains__(PyObject *_self, PyObject *key) {
+  Py_hash_t hash = PyObject_Hash(key);
+
+  if (hash == -1) {
+    PyObject_HashNotImplemented(key);
+    return -1;
+  }
+
+  SSDict *self = (SSDict *)_self;
+
+  SSDictNode *node = self->head;
+
+  while (node != NULL) {
+    if (node->key_hash == hash) {
+      return 1;
+    }
+
+    node = node->next;
+  }
+
+  return 0;
+}
