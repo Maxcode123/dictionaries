@@ -24,7 +24,7 @@ static PySequenceMethods SSDict_sequencemethods = {
     .sq_repeat = 0,
     .sq_item = 0,
     .sq_ass_item = 0,
-    .sq_contains = 0,
+    .sq_contains = SSDict__contains__,
     .sq_inplace_concat = 0,
     .sq_inplace_repeat = 0,
 };

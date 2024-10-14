@@ -75,5 +75,23 @@ class TestSSDictLength(TestSSDict):
         self.assertResult(2)
 
 
+class TestSSDictContains(TestSSDict):
+    def subject(self, key):
+        return key in self.dict()
+
+    @args("a")
+    def test_key_not_in_dict(self):
+        self.assertResultFalse()
+
+    @args("a")
+    def test_key_in_dict(self):
+        self.dict().__setitem__("a", 1)
+        self.assertResultTrue()
+
+    @args({1})
+    def test_unhashable_item(self):
+        self.assertResultRaises(TypeError)
+
+
 if __name__ == "__main__":
     unittest.main()
