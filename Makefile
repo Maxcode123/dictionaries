@@ -10,6 +10,9 @@ py:
 install-pip:
 	$(PY) -m ensurepip --default-pip
 
+install-local-package:
+	$(PIP) install -e .
+
 install-requirements:
 	$(PIP) install --upgrade -t $(REPOS)/cpython/Lib setuptools unittest-extensions
 
