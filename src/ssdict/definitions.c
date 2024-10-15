@@ -12,7 +12,7 @@ static PyMethodDef SSDict_methods[] = {
 };
 
 static PyMappingMethods SSDict_mappingmethods = {
-    .mp_length = (lenfunc)_SSDict_len,
+    .mp_length = (lenfunc)SSDict_len,
     .mp_subscript = SSDict__getitem__,
     .mp_ass_subscript = SSDict_assign_value,
 };

@@ -195,7 +195,7 @@ int _SSDict_set_item(SSDict *self, PyObject *key, PyObject *value) {
 }
 
 // Returns the number of items in the dictionary.
-int _SSDict_len(PyObject *_self) {
+int SSDict_len(PyObject *_self) {
   SSDict *self = (SSDict *)_self;
   return self->size;
 }

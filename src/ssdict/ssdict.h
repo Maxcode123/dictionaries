@@ -61,7 +61,7 @@ int _SSDict_delete_body_node(SSDict *self, Py_hash_t hash);
 int _SSDict_set_item(SSDict *self, PyObject *key, PyObject *value);
 
 // Returns the number of items in the dictionary.
-int _SSDict_len(PyObject *_self);
+int SSDict_len(PyObject *_self);
 
 // Returns 1 if the dictionary contains the given key, 0 otherwise. Returns -1
 // upon failure.
