@@ -32,7 +32,7 @@ int SSDict__init__(PyObject *self);
 PyObject *SSDict__getitem__(PyObject *self, PyObject *key);
 
 // Deallocates the given dict. Frees all nodes.
-void _SSDict_dealloc(SSDict *self);
+void SSDict_dealloc(SSDict *self);
 
 // Replaces the value of the given node. Increments the reference of the given
 // value. Decrements the reference of the existing value.

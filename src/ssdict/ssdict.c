@@ -42,7 +42,7 @@ PyObject *SSDict__getitem__(PyObject *self, PyObject *key) {
 }
 
 // Deallocates the given dict. Frees all nodes.
-void _SSDict_dealloc(SSDict *self) {
+void SSDict_dealloc(SSDict *self) {
   SSDictNode *node = self->head;
   SSDictNode *to_be_freed;
 
