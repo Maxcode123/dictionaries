@@ -28,7 +28,7 @@ PyObject *SSDict__new__(PyTypeObject *type, PyObject *args, PyObject *kwds);
 // Initialize a dictionary (`__init__` in Python).
 int SSDict__init__(PyObject *self);
 
-// Get a dictionary item (`__getitem__ method in Python).
+// Get a dictionary item (`__getitem__` method in Python).
 PyObject *SSDict__getitem__(PyObject *self, PyObject *key);
 
 // Deallocates the given dict. Frees all nodes.
