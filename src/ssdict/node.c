@@ -26,7 +26,7 @@ SSDictNode *SSDictNode_new() {
 
 // Initialize the values of the node. Increments the reference to the key and
 // value.
-void SSDictNode__init__(SSDictNode *self, PyObject *key, PyObject *value) {
+void SSDictNode_init(SSDictNode *self, PyObject *key, PyObject *value) {
   Py_hash_t hash = PyObject_Hash(key);
 
   if (hash == -1) {

@@ -83,7 +83,7 @@ void _SSDict_add_new_node(SSDict *self, PyObject *key, PyObject *value) {
     // node creation failed. do something
   }
 
-  SSDictNode__init__(new, key, value);
+  SSDictNode_init(new, key, value);
 
   SSDictNode *node = self->head;
   self->head = new;

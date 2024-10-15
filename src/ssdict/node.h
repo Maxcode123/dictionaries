@@ -23,5 +23,5 @@ SSDictNode *SSDictNode_new();
 
 // Initialize the values of the node. Increments the reference to the key and
 // value.
-void SSDictNode__init__(SSDictNode *self, PyObject *key,
+void SSDictNode_init(SSDictNode *self, PyObject *key,
                                PyObject *value);
