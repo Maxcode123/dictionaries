@@ -34,6 +34,16 @@ PyObject *SSDict__getitem__(PyObject *self, PyObject *key);
 // Deallocates the given dict. Frees all nodes.
 void SSDict_dealloc(SSDict *self);
 
+// Assigns a new value to key or deletes the key if the value is NULL.
+int SSDict_assign_value(PyObject *_self, PyObject *key, PyObject *value);
+
+// Returns the number of items in the dictionary.
+int SSDict_len(PyObject *_self);
+
+// Returns 1 if the dictionary contains the given key, 0 otherwise. Returns -1
+// upon failure.
+int SSDict__contains__(PyObject *_self, PyObject *key);
+
 // Replaces the value of the given node. Increments the reference of the given
 // value. Decrements the reference of the existing value.
 static void SSDict_replace_node_value(SSDictNode *node, PyObject *value);
@@ -41,9 +51,6 @@ static void SSDict_replace_node_value(SSDictNode *node, PyObject *value);
 // Adds a new entry-node to the dictionary. Increments the reference to the key
 // and value.
 static void SSDict_add_new_node(SSDict *self, PyObject *key, PyObject *value);
-
-// Assigns a new value to key or deletes the key if the value is NULL.
-int SSDict_assign_value(PyObject *_self, PyObject *key, PyObject *value);
 
 // Deletes an entry from the dictionary. Returns -1 upon failure.
 static int SSDict_delete_item(SSDict *self, PyObject *key);
@@ -59,10 +66,3 @@ static int SSDict_delete_body_node(SSDict *self, Py_hash_t hash);
 
 // Sets a dictionary entry. Returns -1 upon failure.
 static int SSDict_set_item(SSDict *self, PyObject *key, PyObject *value);
-
-// Returns the number of items in the dictionary.
-int SSDict_len(PyObject *_self);
-
-// Returns 1 if the dictionary contains the given key, 0 otherwise. Returns -1
-// upon failure.
-int SSDict__contains__(PyObject *_self, PyObject *key);

@@ -57,6 +57,49 @@ void SSDict_dealloc(SSDict *self) {
   Py_TYPE(self)->tp_free((PyObject *)self);
 }
 
+// Assigns a new value to key or deletes the key.
+int SSDict_assign_value(PyObject *_self, PyObject *key, PyObject *value) {
+
+  SSDict *self = (SSDict *)_self;
+
+  if (value == NULL) {
+    return SSDict_delete_item(self, key);
+  } else {
+    return SSDict_set_item(self, key, value);
+  }
+}
+
+// Returns the number of items in the dictionary.
+int SSDict_len(PyObject *_self) {
+  SSDict *self = (SSDict *)_self;
+  return self->size;
+}
+
+// Returns 1 if the dictionary contains the given key, 0 otherwise. Returns -1
+// upon failure.
+int SSDict__contains__(PyObject *_self, PyObject *key) {
+  Py_hash_t hash = PyObject_Hash(key);
+
+  if (hash == -1) {
+    PyObject_HashNotImplemented(key);
+    return -1;
+  }
+
+  SSDict *self = (SSDict *)_self;
+
+  SSDictNode *node = self->head;
+
+  while (node != NULL) {
+    if (node->key_hash == hash) {
+      return 1;
+    }
+
+    node = node->next;
+  }
+
+  return 0;
+}
+
 // Replaces the value of the given node. Increments the reference of the given
 // value. Decrements the reference of the exisintg value.
 static void SSDict_replace_node_value(SSDictNode *node, PyObject *value) {
@@ -89,18 +132,6 @@ static void SSDict_add_new_node(SSDict *self, PyObject *key, PyObject *value) {
   self->head = new;
   new->next = node;
   self->size++;
-}
-
-// Assigns a new value to key or deletes the key.
-int SSDict_assign_value(PyObject *_self, PyObject *key, PyObject *value) {
-
-  SSDict *self = (SSDict *)_self;
-
-  if (value == NULL) {
-    return SSDict_delete_item(self, key);
-  } else {
-    return SSDict_set_item(self, key, value);
-  }
 }
 
 // Deletes an entry from the dictionary. Returns -1 upon failure.
@@ -190,37 +221,6 @@ static int SSDict_set_item(SSDict *self, PyObject *key, PyObject *value) {
   }
 
   SSDict_add_new_node(self, key, value);
-
-  return 0;
-}
-
-// Returns the number of items in the dictionary.
-int SSDict_len(PyObject *_self) {
-  SSDict *self = (SSDict *)_self;
-  return self->size;
-}
-
-// Returns 1 if the dictionary contains the given key, 0 otherwise. Returns -1
-// upon failure.
-int SSDict__contains__(PyObject *_self, PyObject *key) {
-  Py_hash_t hash = PyObject_Hash(key);
-
-  if (hash == -1) {
-    PyObject_HashNotImplemented(key);
-    return -1;
-  }
-
-  SSDict *self = (SSDict *)_self;
-
-  SSDictNode *node = self->head;
-
-  while (node != NULL) {
-    if (node->key_hash == hash) {
-      return 1;
-    }
-
-    node = node->next;
-  }
 
   return 0;
 }
