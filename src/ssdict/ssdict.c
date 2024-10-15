@@ -92,7 +92,7 @@ void _SSDict_add_new_node(SSDict *self, PyObject *key, PyObject *value) {
 }
 
 // Assigns a new value to key or deletes the key.
-int _SSDict_assign_value(PyObject *_self, PyObject *key, PyObject *value) {
+int SSDict_assign_value(PyObject *_self, PyObject *key, PyObject *value) {
 
   SSDict *self = (SSDict *)_self;
 

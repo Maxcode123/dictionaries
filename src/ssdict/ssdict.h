@@ -43,7 +43,7 @@ void _SSDict_replace_node_value(SSDictNode *node, PyObject *value);
 void _SSDict_add_new_node(SSDict *self, PyObject *key, PyObject *value);
 
 // Assigns a new value to key or deletes the key if the value is NULL.
-int _SSDict_assign_value(PyObject *_self, PyObject *key, PyObject *value);
+int SSDict_assign_value(PyObject *_self, PyObject *key, PyObject *value);
 
 // Deletes an entry from the dictionary. Returns -1 upon failure.
 int _SSDict_delete_item(SSDict *self, PyObject *key);
