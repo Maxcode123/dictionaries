@@ -59,7 +59,7 @@ void SSDict_dealloc(SSDict *self) {
 
 // Replaces the value of the given node. Increments the reference of the given
 // value. Decrements the reference of the exisintg value.
-void _SSDict_replace_node_value(SSDictNode *node, PyObject *value) {
+static void SSDict_replace_node_value(SSDictNode *node, PyObject *value) {
   // Use a temporary PyObject* instead of doing this:
   // Py_XDECREF(node->value);
   // Py_INCREF(value);
@@ -77,7 +77,7 @@ void _SSDict_replace_node_value(SSDictNode *node, PyObject *value) {
   Py_XDECREF(tmp);
 }
 
-void _SSDict_add_new_node(SSDict *self, PyObject *key, PyObject *value) {
+static void SSDict_add_new_node(SSDict *self, PyObject *key, PyObject *value) {
   SSDictNode *new = SSDictNode_new();
   if (new == NULL) {
     // node creation failed. do something
@@ -97,14 +97,14 @@ int SSDict_assign_value(PyObject *_self, PyObject *key, PyObject *value) {
   SSDict *self = (SSDict *)_self;
 
   if (value == NULL) {
-    return _SSDict_delete_item(self, key);
+    return SSDict_delete_item(self, key);
   } else {
-    return _SSDict_set_item(self, key, value);
+    return SSDict_set_item(self, key, value);
   }
 }
 
 // Deletes an entry from the dictionary. Returns -1 upon failure.
-int _SSDict_delete_item(SSDict *self, PyObject *key) {
+static int SSDict_delete_item(SSDict *self, PyObject *key) {
   Py_hash_t hash = PyObject_Hash(key);
 
   if (hash == -1) {
@@ -113,10 +113,10 @@ int _SSDict_delete_item(SSDict *self, PyObject *key) {
   }
 
   if (self->head->key_hash == hash) {
-    return _SSDict_delete_head_node(self);
+    return SSDict_delete_head_node(self);
   }
 
-  if (_SSDict_delete_body_node(self, hash) < 0) {
+  if (SSDict_delete_body_node(self, hash) < 0) {
     PyErr_SetObject(PyExc_KeyError, key);
     return -1;
   }
@@ -126,7 +126,7 @@ int _SSDict_delete_item(SSDict *self, PyObject *key) {
 
 // Deletes the head node of the dictionary and moves the head to the next node.
 // Decrements the reference to the key and value of the head node.
-int _SSDict_delete_head_node(SSDict *self) {
+static int SSDict_delete_head_node(SSDict *self) {
   Py_XDECREF(self->head->key);
   Py_XDECREF(self->head->value);
 
@@ -147,7 +147,7 @@ int _SSDict_delete_head_node(SSDict *self) {
 // Deletes the node with the given hash from the the body of the list.
 // Expects a valid hash (i.e. not equal to -1).
 // Returns -1 if the node is not found.
-int _SSDict_delete_body_node(SSDict *self, Py_hash_t hash) {
+static int SSDict_delete_body_node(SSDict *self, Py_hash_t hash) {
   SSDictNode *before = self->head;
   SSDictNode *current = before->next;
 
@@ -170,7 +170,7 @@ int _SSDict_delete_body_node(SSDict *self, Py_hash_t hash) {
 }
 
 // Sets a dictionary entry. Returns -1 upon failure.
-int _SSDict_set_item(SSDict *self, PyObject *key, PyObject *value) {
+static int SSDict_set_item(SSDict *self, PyObject *key, PyObject *value) {
   Py_hash_t hash = PyObject_Hash(key);
 
   if (hash == -1) {
@@ -182,14 +182,14 @@ int _SSDict_set_item(SSDict *self, PyObject *key, PyObject *value) {
 
   while (node != NULL) {
     if (node->key_hash == hash) {
-      _SSDict_replace_node_value(node, value);
+      SSDict_replace_node_value(node, value);
 
       return 0;
     }
     node = node->next;
   }
 
-  _SSDict_add_new_node(self, key, value);
+  SSDict_add_new_node(self, key, value);
 
   return 0;
 }
