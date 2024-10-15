@@ -28,41 +28,41 @@ PyObject *SSDict__new__(PyTypeObject *type, PyObject *args, PyObject *kwds);
 // Initialize a dictionary (`__init__` in Python).
 int SSDict__init__(PyObject *self);
 
-// Get a dictionary item (`__getitem__ method in Python).
+// Get a dictionary item (`__getitem__` method in Python).
 PyObject *SSDict__getitem__(PyObject *self, PyObject *key);
 
 // Deallocates the given dict. Frees all nodes.
-void _SSDict_dealloc(SSDict *self);
-
-// Replaces the value of the given node. Increments the reference of the given
-// value. Decrements the reference of the existing value.
-void _SSDict_replace_node_value(SSDictNode *node, PyObject *value);
-
-// Adds a new entry-node to the dictionary. Increments the reference to the key
-// and value.
-void _SSDict_add_new_node(SSDict *self, PyObject *key, PyObject *value);
+void SSDict_dealloc(SSDict *self);
 
 // Assigns a new value to key or deletes the key if the value is NULL.
-int _SSDict_assign_value(PyObject *_self, PyObject *key, PyObject *value);
-
-// Deletes an entry from the dictionary. Returns -1 upon failure.
-int _SSDict_delete_item(SSDict *self, PyObject *key);
-
-// Deletes the head node of the dictionary and moves the head to the next node.
-// Decrements the reference to the key and value of the head node.
-int _SSDict_delete_head_node(SSDict *self);
-
-// Deletes the node with the given hash from the the body of the list.
-// Expects a valid hash (i.e. not equal to -1).
-// Returns -1 if the node is not found.
-int _SSDict_delete_body_node(SSDict *self, Py_hash_t hash);
-
-// Sets a dictionary entry. Returns -1 upon failure.
-int _SSDict_set_item(SSDict *self, PyObject *key, PyObject *value);
+int SSDict_assign_value(PyObject *_self, PyObject *key, PyObject *value);
 
 // Returns the number of items in the dictionary.
-int _SSDict_len(PyObject *_self);
+int SSDict_len(PyObject *_self);
 
 // Returns 1 if the dictionary contains the given key, 0 otherwise. Returns -1
 // upon failure.
 int SSDict__contains__(PyObject *_self, PyObject *key);
+
+// Replaces the value of the given node. Increments the reference of the given
+// value. Decrements the reference of the existing value.
+static void SSDict_replace_node_value(SSDictNode *node, PyObject *value);
+
+// Adds a new entry-node to the dictionary. Increments the reference to the key
+// and value.
+static void SSDict_add_new_node(SSDict *self, PyObject *key, PyObject *value);
+
+// Deletes an entry from the dictionary. Returns -1 upon failure.
+static int SSDict_delete_item(SSDict *self, PyObject *key);
+
+// Deletes the head node of the dictionary and moves the head to the next node.
+// Decrements the reference to the key and value of the head node.
+static int SSDict_delete_head_node(SSDict *self);
+
+// Deletes the node with the given hash from the the body of the list.
+// Expects a valid hash (i.e. not equal to -1).
+// Returns -1 if the node is not found.
+static int SSDict_delete_body_node(SSDict *self, Py_hash_t hash);
+
+// Sets a dictionary entry. Returns -1 upon failure.
+static int SSDict_set_item(SSDict *self, PyObject *key, PyObject *value);

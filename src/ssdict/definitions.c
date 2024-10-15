@@ -12,9 +12,9 @@ static PyMethodDef SSDict_methods[] = {
 };
 
 static PyMappingMethods SSDict_mappingmethods = {
-    .mp_length = (lenfunc)_SSDict_len,
+    .mp_length = (lenfunc)SSDict_len,
     .mp_subscript = SSDict__getitem__,
-    .mp_ass_subscript = _SSDict_assign_value,
+    .mp_ass_subscript = SSDict_assign_value,
 };
 
 /* Hack to implement "key in dict" */
@@ -39,7 +39,7 @@ static PyTypeObject SSDictType = {
     .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE,
     .tp_new = SSDict__new__,
     .tp_init = (initproc)SSDict__init__,
-    .tp_dealloc = (destructor)_SSDict_dealloc,
+    .tp_dealloc = (destructor)SSDict_dealloc,
     .tp_methods = SSDict_methods,
     .tp_as_mapping = &SSDict_mappingmethods,
     .tp_as_sequence = &SSDict_sequencemethods,
